@@ -19,4 +19,10 @@ class Calculator
 	def divide
 		@num_one / @num_two
 	end
+
+	def method_missing(meth, *args)
+		# div, sub, mult
+		hopeful_method = self.methods.grep(/#{Regexp.quote(meth.to_s)}/).first
+		self.send(hopeful_method)
+	end
 end

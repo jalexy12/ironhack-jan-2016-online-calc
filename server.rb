@@ -1,8 +1,12 @@
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require_relative('lib/calculator.rb')
+require_relative('lib/memory.rb')
 
-get '/' do 
+memory = Memory.new('last_number.txt')
+
+get '/' do
+	@saved_number = memory.load_number 
 	erb(:home)
 end
 
@@ -12,15 +16,12 @@ get '/calculate' do
 
 	@operation = params[:operation]
 	calc = Calculator.new(@first_number, @second_number)
-	if @operation == "add"
-		@result = calc.add
-	elsif @operation == "sub"
-		@result = calc.subtract
-	elsif @operation == "div"
-		@result = calc.divide
-	else
-		@result = calc.multiply
-	end
+	@result = calc.send(@operation)
 
 	erb(:result)
+end
+
+post '/save' do 
+	memory.save(params[:value])
+	redirect to('/')
 end

@@ -1,2 +1,9 @@
 The result of <%= @operation %> between <%= @first_number %> and <%= @second_number  %> is 
 <%= @result  %>
+
+<!--- Give the user the option to save this value -->
+
+<form action="/save" method="POST">
+	<!-- <input type="hidden" value="<%#= @result %>"> -->
+	<button value="<%= @result %>" name="value" type="submit">Save</button>
+</form>
